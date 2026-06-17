@@ -1,73 +1,76 @@
-# (Replace_with_your_title) Cookbook
+# AOS and miniAOS Bias Characterization Cookbook
 
-[![Binder](http://binder.mypythia.org/badge_logo.svg)](http://binder.mypythia.org/v2/gh/ARM-Development/arm-cookbook-template/main?labpath=notebooks)
+[![Binder](http://binder.mypythia.org/badge_logo.svg)](http://binder.mypythia.org/v2/gh/rcjackson/bnf-aos-bias-characterization/main?labpath=notebooks)
 
-This ARM Cookbook covers how to characterize the bias between the AOS particle number concentration and size distribution measurements and the miniAOS at BNF. 
+This ARM Cookbook characterizes the measurement bias between the ARM Aerosol Observing System (AOS) and the miniaturized miniAOS suite deployed at the Bankhead National Forest (BNF) AMF3 site, covering the November 2024–April 2025 deployment.
 
 ## Motivation
 
-(Add a few sentences stating why this cookbook will be useful. What skills will you, "the chef", gain once you have reached the end of the cookbook?)
+The full AOS occupies two seatainers and draws substantial power, which limits where and how quickly it can be deployed. The miniAOS is a smaller, lower-power subset of instruments built to measure aerosol size distributions in places the full AOS cannot easily go (towers, difficult terrain, tight spaces). BNF is the **first** miniAOS deployment, so its measurements need to be validated against the co-located reference AOS before the miniAOS can be trusted on its own.
+
+These notebooks show how to do that validation: load the ARM datastreams, align instruments that sample at different rates, apply data-quality filtering, and quantify the bias between two instrument pairs — both as integrated total number concentration and as the full size-resolved distribution — and how that bias varies over time and with ambient conditions.
+
+The two instrument pairs compared throughout are:
+
+- **mSEMS (miniAOS) vs. SMPS (AOS)** — both size particles by **electrical mobility** diameter, so close agreement is expected; residual differences point to calibration or flow-rate drift.
+- **OPC (miniAOS) vs. APS (AOS)** — **optical** vs. **aerodynamic** diameter, so a systematic, physically-meaningful offset is expected.
 
 ## Authors
 
-[Bobby Jackson](@rcjackson), [Ashish Singh](@second-author), etc. *Acknowledge primary content authors here*
+[Bobby Jackson](https://github.com/rcjackson), Ashish Singh
 
 ### Contributors
 
-<a href="https://github.com/ARM-Development/arm-cookbook-template/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=ARM-Development/arm-cookbook-template" />
+<a href="https://github.com/rcjackson/bnf-aos-bias-characterization/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=rcjackson/bnf-aos-bias-characterization" />
 </a>
 
 ## Structure
-(State one or more sections that will comprise the notebook. E.g., *This cookbook is broken up into two main sections - "Foundations" and "Example Workflows."* Then, describe each section below.)
 
-### Section 1 ( Replace with the title of this section, e.g. "Foundations" )
-(Add content for this section, e.g., "The foundational content includes ... ")
+This cookbook is organized as two companion notebooks in the `notebooks/` directory.
 
-### Section 2 ( Replace with the title of this section, e.g. "Example workflows" )
-(Add content for this section, e.g., "Example workflows include ... ")
+### 1. Number concentration (`bnf-aos-miniaos-number-concentration.ipynb`)
+
+Compares **integrated total particle number concentration** ($N$) between the two instrument pairs. It loads the four ARM datastreams, resamples them to a common 1-minute grid and inner-joins on time, filters using Data Quality Reports (DQRs), and fits linear regressions of miniAOS vs. AOS concentration. The bias is broken out by month and across four deployment sub-periods (Nov, Dec–Jan, Feb–Mar, Apr), and examined as a function of temperature, relative humidity, and wind speed.
+
+### 2. Size distributions (`bnf-aos-miniaos-size-distribution.ipynb`)
+
+Extends the comparison to the **size-resolved** number distribution ($dN/d\log D_p$) to reveal whether bias is uniform or concentrated in particular size ranges. It compares the sub-micron range (mSEMS vs. SMPS, 10–337 nm) and the super-micron range (OPC vs. APS), rebinning the two instruments of each pair onto a shared diameter grid (via the `align_size_distributions.py` helper) before computing mean distributions and ratios, again across the same four deployment periods. It also generates daily, weekly, and per-event diagnostic plots.
 
 ## Running the Notebooks
-You can either run the notebook using [Binder](https://mybinder.org/) or on your local machine.
+
+You can run these notebooks either via [Binder](https://mybinder.org/) or on your own machine.
+
+> **Data access:** The notebooks download ARM datastreams from [ARM Data Discovery](https://adc.arm.gov/discovery/) using `act.discovery.download_arm_data`. You will need a free [ARM account](https://adc.arm.gov/) and must set the `ARM_USERNAME` and `ARM_PASSWORD` environment variables (or substitute your credentials in the download cells) before running.
 
 ### Running on Binder
 
-The simplest way to interact with a Jupyter Notebook is through
-[Binder](https://mybinder.org/), which enables the execution of a
-[Jupyter Book](https://jupyterbook.org) in the cloud. The details of how this works are not
-important for now. All you need to know is how to launch a Pythia
-Cookbooks chapter via Binder. Simply navigate your mouse to
-the top right corner of the book chapter you are viewing and click
-on the rocket ship icon, (see figure below), and be sure to select
-“launch Binder”. After a moment you should be presented with a
-notebook that you can interact with. I.e. you’ll be able to execute
-and even change the example programs. You’ll see that the code cells
-have no output at first, until you execute them by pressing
-{kbd}`Shift`\+{kbd}`Enter`. Complete details on how to interact with
-a live Jupyter notebook are described in [Getting Started with
-Jupyter](https://foundations.projectpythia.org/foundations/getting-started-jupyter.html).
+The simplest way to interact with a Jupyter Notebook is through [Binder](https://mybinder.org/), which runs a [Jupyter Book](https://jupyterbook.org) in the cloud. Navigate to the top-right corner of any page you are viewing, click the rocket-ship icon, and select "launch Binder". After a moment you will be presented with an interactive notebook whose code cells you can execute with {kbd}`Shift`\+{kbd}`Enter`. See [Getting Started with Jupyter](https://foundations.projectpythia.org/foundations/getting-started-jupyter.html) for details.
 
 ### Running on Your Own Machine
-If you are interested in running this material locally on your computer, you will need to follow this workflow:
 
-(Replace "arm-cookbook-example" with the title of your cookbooks)   
-
-1. Clone the `https://github.com/ARM-Development/arm-cookbook-example` repository:
+1. Clone the repository:
 
    ```bash
-    git clone https://github.com/ProjectPythiaCookbooks/cookbook-example.git
-    ```  
-1. Move into the `arm-cookbook-example` directory
-    ```bash
-    cd arm-cookbook-example
-    ```  
-1. Create and activate your conda environment from the `environment.yml` file
-    ```bash
-    conda env create -f environment.yml
-    conda activate arm-cookbook-example
-    ```  
-1.  Move into the `notebooks` directory and start up Jupyterlab
-    ```bash
-    cd notebooks/
-    jupyter lab
-    ```
+   git clone https://github.com/rcjackson/bnf-aos-bias-characterization.git
+   ```
+
+1. Move into the repository directory:
+
+   ```bash
+   cd bnf-aos-bias-characterization
+   ```
+
+1. Create and activate the conda environment from `environment.yml`:
+
+   ```bash
+   conda env create -f environment.yml
+   conda activate arm-cookbook-dev
+   ```
+
+1. Move into the `notebooks` directory and start JupyterLab:
+
+   ```bash
+   cd notebooks/
+   jupyter lab
+   ```
