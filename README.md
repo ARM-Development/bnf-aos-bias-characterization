@@ -2,7 +2,7 @@
 
 [![Binder](http://binder.mypythia.org/badge_logo.svg)](http://binder.mypythia.org/v2/gh/ARM-Development/arm-cookbook-template/main?labpath=notebooks)
 
-This ARM Cookbook covers ... (replace `...` with the main subject of your cookbook ... e.g., *working with radar data in Python*)
+This ARM Cookbook covers how to characterize the bias between the AOS particle number concentration and size distribution measurements and the miniAOS at BNF. 
 
 ## Motivation
 
@@ -10,7 +10,7 @@ This ARM Cookbook covers ... (replace `...` with the main subject of your cookbo
 
 ## Authors
 
-[First Author](@first-author), [Second Author](@second-author), etc. *Acknowledge primary content authors here*
+[Bobby Jackson](@rcjackson), [Ashish Singh](@second-author), etc. *Acknowledge primary content authors here*
 
 ### Contributors
 
