@@ -142,3 +142,6 @@ notebooks/single_instrument_flags/
 
 # macOS
 .DS_Store
+
+# MyST build outputs
+_build
