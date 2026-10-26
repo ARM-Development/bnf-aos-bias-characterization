@@ -6,9 +6,15 @@ This ARM Cookbook characterizes the measurement bias between the ARM Aerosol Obs
 
 ## Motivation
 
-The full AOS occupies two seatainers and draws substantial power, which limits where and how quickly it can be deployed. The miniAOS is a smaller, lower-power subset of instruments built to measure aerosol size distributions in places the full AOS cannot easily go (towers, difficult terrain, tight spaces). BNF is the **first** miniAOS deployment, so its measurements need to be validated against the co-located reference AOS before the miniAOS can be trusted on its own.
+The full AOS occupies two seatainers and draws substantial power, which limits where and how quickly it can be deployed.
+The miniAOS is a smaller, lower-power subset of instruments built to measure aerosol size distributions in places the
+full AOS cannot easily go (towers, difficult terrain, tight spaces). BNF is the **first** miniAOS deployment, so its
+measurements need to be validated against the co-located reference AOS before the miniAOS can be trusted on its own.
 
-These notebooks show how to do that validation: load the ARM datastreams, align instruments that sample at different rates, apply data-quality filtering, and quantify the bias between two instrument pairs — both as integrated total number concentration and as the full size-resolved distribution — and how that bias varies over time and with ambient conditions.
+These notebooks show how to do that validation: load the ARM datastreams, align instruments that sample at different
+rates, apply data-quality filtering, and quantify the bias between two instrument pairs — both as integrated total
+number concentration and as the full size-resolved distribution — and how that bias varies over time and with
+ambient conditions.
 
 The two instrument pairs compared throughout are:
 
