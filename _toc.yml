@@ -1,6 +1,0 @@
-format: jb-book
-root: README
-parts:
-- caption: Notebooks
-  chapters:
-    - glob: notebooks/*.ipynb
